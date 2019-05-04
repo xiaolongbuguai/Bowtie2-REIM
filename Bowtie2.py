@@ -1,3 +1,20 @@
+import requests
+import sys
+import os
+
+
+class Logger(object):
+    def __init__(self, fileN="Default.log"):
+        self.terminal = sys.stdout
+        self.log = open(fileN, "w")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        pass
+
 def setindex(strings):
     print('index processing begins')
     mid = strings + '$'
@@ -62,13 +79,15 @@ def tally_convert(bwtindex):
 
 #tally_convert(setindex('ACGTGTCAT'))
 
-def tally_search(find,tally_matrix):
+def tally_search(findx,tally_matrix):
     print('search begins !')
-    find = list(find)
+    find_save = list(findx)
     #print(find)
     ans = []
+    partial = []
     for i in tally_matrix[0]:
         k = i
+        find = find_save[:]
         while len(find) > 1:
             if k[0] == find[-1]:
                 if k[1] == find[-2]:
@@ -77,13 +96,13 @@ def tally_search(find,tally_matrix):
                         break
                     find.pop()
                     if k[1] == 'A':
-                        k = tally_matrix[0][tally_matrix[1][0]+ k[3][0]]
+                        k = tally_matrix[0][tally_matrix[1][0] + k[3][0]]
                     elif k[1] == 'C':
-                        k = tally_matrix[0][tally_matrix[1][1]+ k[3][1]]
+                        k = tally_matrix[0][tally_matrix[1][1] + k[3][1]]
                     elif k[1] == 'G':
-                        k = tally_matrix[0][tally_matrix[1][2]+ k[3][2]]
+                        k = tally_matrix[0][tally_matrix[1][2] + k[3][2]]
                     elif k[1] == 'T':
-                        k = tally_matrix[0][tally_matrix[1][3]+ k[3][3]]
+                        k = tally_matrix[0][tally_matrix[1][3] + k[3][3]]
                 else:
                     break
             else:
@@ -101,12 +120,15 @@ def show(string,search,ans):
         print (search,end='')
         print('')
         print('')
+    path = os.path.abspath(os.path.dirname(__file__))
+    type = sys.getfilesystemencoding()
+    url = 'https://api.day.app/dgMCtB2A6VtfKjnpcpFfV4/Bowtie2分析完成,查找到%s个匹配' % str(len(ans))
+    requests.get(url)
+
+refstring = 'ACGTGTCATTAGTGATGATGGACGTGACGATACGATGACTGACGTAGCAGTA'
+search = 'GTG'
 
 
-
-
-
-refstring = 'ACGTGTCAT'
-search = 'GT'
-
+sys.stdout = Logger("a.txt")
 show(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
+
