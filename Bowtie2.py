@@ -116,8 +116,10 @@ def show(string,search,ans):
         print('This is NO.%s alignment answer' % str(i+1))
         print(string)
         for j in range(ans[i]-1):
-            print('',end = ' ')
+            print('',end = '-')
         print (search,end='')
+        for i in range(len(string)-len(search)-ans[i]+1):
+            print('', end='-')
         print('')
         print('')
     path = os.path.abspath(os.path.dirname(__file__))
@@ -125,10 +127,14 @@ def show(string,search,ans):
     url = 'https://api.day.app/dgMCtB2A6VtfKjnpcpFfV4/Bowtie2分析完成,查找到%s个匹配' % str(len(ans))
     requests.get(url)
 
-refstring = 'ACGTGTCATTAGTGATGATGGACGTGACGATACGATGACTGACGTAGCAGTA'
-search = 'GTG'
+
+# input information
+refstring =sys.argv[1]
+search  =sys.argv[2]
+
+#refstring = 'ACGTGTCATTAGTGATGTGACGGATCAGTCATGACGATACGATGACTGACTACGGATCAGTCAGCATGACGATAGCAGTACAGTACAGTGTAGCAGTA'
+#search = 'GTG'
 
 
 sys.stdout = Logger("a.txt")
 show(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
-
