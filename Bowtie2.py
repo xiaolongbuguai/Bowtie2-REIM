@@ -129,12 +129,33 @@ def show(string,search,ans):
 
 
 # input information
-refstring =sys.argv[1]
-search  =sys.argv[2]
+refstring_ad =sys.argv[1]
+search_ad  =sys.argv[2]
+
+refstring_pre = open(refstring_ad)
+refstring = ''
+for i in refstring_pre:
+    if not i.startswith('>'):
+        refstring += i.strip()
+refstring_pre.close()
+
+search_pre = open(search_ad)
+search = ''
+for i in search_pre:
+    if not i.startswith('>'):
+        search += i.strip()
+search_pre.close()
+
+print(refstring)
+print(search)
+
 
 #refstring = 'ACGTGTCATTAGTGATGTGACGGATCAGTCATGACGATACGATGACTGACTACGGATCAGTCAGCATGACGATAGCAGTACAGTACAGTGTAGCAGTA'
 #search = 'GTG'
 
+def seed():
+
+    return None
 
 sys.stdout = Logger("a.txt")
 show(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
