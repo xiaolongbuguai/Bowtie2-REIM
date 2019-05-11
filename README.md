@@ -77,7 +77,7 @@ Finish Notification helps when you do not know how much time it will cost to fin
 
 It should be look like this on your smartphone when your work is done
 
-<img src="/screenshot1.JPEG" style="zoom:25%" />
+<div align=center><img width="250" height="500" src="/screenshot1.JPEG"/></div>
 
 To use Finish Notification , requirements below should be satisfied:
 
