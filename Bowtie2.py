@@ -1,6 +1,9 @@
+from progressbar import *
 import requests
 import sys
 import os
+import pandas as pd
+import xlsxwriter
 
 
 class Logger(object):
@@ -15,26 +18,67 @@ class Logger(object):
     def flush(self):
         pass
 
+def takeSecond(inp):
+    return inp[1]
+
 def setindex(strings):
     print('index processing begins')
     mid = strings + '$'
     str_list = []
+    widgets = ['Progress: ', Percentage(), ' ', Bar('#'), ' ', Timer(),
+               ' ', ETA()]
+    pbar = ProgressBar(widgets=widgets).start()
     for i in range(len(strings)+1):
-        str_list.append(str_rotate(i,mid))
-    str_list = sorted(str_list)
+        middle = str_rotate(i,mid)
+        str_list.append([i,middle[0:19]+middle[-1]])
+        pbar.update(int(i/(len(strings)+1) * 100))
+        #print(i/(len(strings)+1))
+    pbar.finish()
+    str_list.sort(key=takeSecond)
+    #print('sort success')
     output =[]
     #print(str_list)
     for i in str_list:
-        indexnum = len(strings) - i.index('$')
-        output.append([i[0],i[-1],indexnum])
+        #indexnum = len(strings) - i.index('$')
+        indexnum = i[0]
+        output.append([i[1][0],i[1][-1],indexnum])
     #print(output)
     print('index success!')
     return output
 
 
 def str_rotate(distance,strings):
-    output = strings[distance:] + strings[0:distance]
-    return output
+    return strings[distance:] + strings[0:distance]
+
+def exchange(str,left,right):
+    while left < right:
+        str[left],str[right] = str[right],str[left]
+        left += 1
+        right -= 1
+
+def str_rotate2(distance,strings):
+    mid =list(strings)
+    length = len(strings)
+    exchange(mid,0,distance-1)
+    exchange(mid,distance,length-1)
+    exchange(mid,0,length-1)
+    ans = ''.join(mid)
+    return ans
+
+def shift(str,n):
+    tmp = str[0]
+    for i in range(1,n):
+        str[i-1] = str[i]
+    str[n-1] = tmp
+
+def str_rotate3(distance,str):
+    mid = list(str)
+    length = len(str)
+    while distance:
+        shift(mid,length)
+        distance -= 1
+    ans = ''.join(mid)
+    return ans
 
 #setindex('abracadabra')
 
@@ -127,6 +171,16 @@ def show(string,search,ans):
     url = 'https://api.day.app/dgMCtB2A6VtfKjnpcpFfV4/Bowtie2分析完成,查找到%s个匹配' % str(len(ans))
     requests.get(url)
 
+def record(string,search,ans):
+    url = 'https://api.day.app/dgMCtB2A6VtfKjnpcpFfV4/Bowtie2分析完成,查找到%s个匹配' % str(len(ans))
+    requests.get(url)
+    df = pd.DataFrame({'index': ans})
+    writer = pd.ExcelWriter('ans.xlsx', engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='Sheet1')
+    writer.save()
+    print('The alignment answer has been saved to a.xlsx')
+
+
 
 # input information
 refstring_ad =sys.argv[1]
@@ -146,8 +200,8 @@ for i in search_pre:
         search += i.strip()
 search_pre.close()
 
-print(refstring)
-print(search)
+#print(refstring)
+#print(search)
 
 
 #refstring = 'ACGTGTCATTAGTGATGTGACGGATCAGTCATGACGATACGATGACTGACTACGGATCAGTCAGCATGACGATAGCAGTACAGTACAGTGTAGCAGTA'
@@ -158,4 +212,8 @@ def seed():
     return None
 
 sys.stdout = Logger("a.txt")
-show(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
+if sys.argv[3] == '-r':
+    record(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
+else:
+    show(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
+
