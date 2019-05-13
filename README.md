@@ -27,7 +27,10 @@ This is a project README file of CS177H Bioinfomatics by Prof. Jie Zheng , Shang
 This reimplementation is purely build on Python which provided extendable features and much more possibilities. The following environmental conditions should be satisfied to run the Python-version Bowtie.
 
 - Python 3.7 or later
-- 
+- Python packages needed ( easily installed by `pip3 install` command)
+  - progressbar
+  - pandas
+  - xlsxwriter
 
 ### Usage introduction
 
