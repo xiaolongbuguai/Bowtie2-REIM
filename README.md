@@ -131,27 +131,3 @@ The following steps must be done to receive a notification:
 For reference DNA series much too longer, it would be annoying if all the alignment is showed in terminal. Thus you can simply add `-r` command in the very end to diable screen show in the terminal and enable excel output. 
 
 Once the alignment is done, a Excel file with extended name `xlsx` will be generated for further analysis which contains the index  of every matched loacation.
-
-1. Download and install **Barks** from App Store as a notification receiver ( It is necessary ) due to Apple's policy of Notification.
-
-2. (Optional) For stronger safety guarantees, it is recommended to setup an server side software on your own VPS, which can be done simply by a installation command.
-
-   1. For Docker:
-
-       `docker run -dt --name bark -p 8080:8080 -v pwd/bark-data:/data finab/bark-server`
-
-      For Docker Compose
-
-      ```
-      mkdir bark && cd bark
-      curl -sL https://git.io/fhAsj > docker-compose.yaml
-      docker-compose up -d
-      ```
-
-   2. Usage
-
-      ```
-      curl http://0.0.0.0:8080/ping
-      ```
-
-   
