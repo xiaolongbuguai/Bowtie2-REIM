@@ -9,7 +9,7 @@ This is a project README file of CS177H Bioinfomatics by Prof. Jie Zheng , Shang
 |                          | Raw Bowtie | Raw Bowtie 2 |   Reimplement Version   |
 | :----------------------: | :--------: | :----------: | :---------------------: |
 | Exact Match (End to End) |     ✔      |      ✔       |            ✔            |
-|  Gap match and mismatch  |     ✘      |      ✔       |        ✔(beta *)        |
+|  Gap match and mismatch  |     ✘      |      ✔       |        ✘(*)        |
 |   Finish Notification    |     ✘      |      ✘       | ✔(remote server needed) |
 
 * Due to knowledgement limitation , there are some known issue processing gap match and mismatch, thus it will be somehow annoying dealing with gap match, the accuracy is not guaranteed.
