@@ -9,7 +9,7 @@ This is a project README file of CS177H Bioinfomatics by Prof. Jie Zheng , Shang
 |                          | Raw Bowtie | Raw Bowtie 2 |   Reimplement Version   |
 | :----------------------: | :--------: | :----------: | :---------------------: |
 | Exact Match (End to End) |     ✔      |      ✔       |            ✔            |
-|  Gap match and mismatch  |     ✘      |      ✔       |        ✘(*)        |
+|  Gap match and mismatch  |     ✘      |      ✔       |          ✘(*)           |
 |   Finish Notification    |     ✘      |      ✘       | ✔(remote server needed) |
 
 * Due to knowledgement limitation , there are some known issue processing gap match and mismatch, thus it will be somehow annoying dealing with gap match, the accuracy is not guaranteed.
@@ -27,7 +27,7 @@ This is a project README file of CS177H Bioinfomatics by Prof. Jie Zheng , Shang
 This reimplementation is purely build on Python which provided extendable features and much more possibilities. The following environmental conditions should be satisfied to run the Python-version Bowtie.
 
 - Python 3.7 or later
-- Python packages needed ( easily installed by `pip3 install` command)
+- Python packages needed ( easily installed by `pip3 install` command )
   - progressbar
   - pandas
   - xlsxwriter
@@ -42,11 +42,17 @@ Call the programm using `python3` in your terminal ( be sure a minimum version o
 
 the calling should be in the following format:
 
-`python3 bowtie2xl.py [path/your reference FASTA file] [path/your compared FASTA file]`
+`python3 bowtie2xl.py [path/your reference FASTA file] [path/your compared FASTA file] -x`
+
+The `-x` should be replaced with `-v` or `-r` , the argument is essential and can not be ommited.
+
+`-v`: means the programm will show all the alignment output on your screen , which is recommended for short sequence like 50 bp
+
+`-r`: means the programm will export the alignment output as an xlsx file in the same path where the py file are. The excel file contains the information of the index of first letter for each match.
 
 Example:
 
-`python3 bowtie2xl.py reference.fasta compared.fasta`
+`python3 bowtie2xl.py reference.fasta compared.fasta -v`
 
 once given the correct file you should see text like:
 
@@ -80,7 +86,16 @@ ACGTGTCATTAGTGATGTGACGGATCAGTCATGACGATACGATGACTGACTACGGATCAGTCAGCATGACGATAGCAGA
 --GTG--------------------------------------------------------------------------
 ```
 
-Here shows the output example when enable the Excel generration by command `-r`
+Here shows the output example when enable the Excel generation by command `-r`
+
+|      | index |
+| :--: | :---: |
+|  0   | 66908 |
+|  1   | 67006 |
+|  2   | 67104 |
+|  3   | 67202 |
+|  4   | 67300 |
+|  5   | 67398 |
 
 ### Special feature: Finish Notification
 
