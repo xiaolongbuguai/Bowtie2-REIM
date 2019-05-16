@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import xlsxwriter
 
-
+# This function is used to log the output which has been sent to terminal
 class Logger(object):
     def __init__(self, fileN="Default.log"):
         self.terminal = sys.stdout
@@ -18,9 +18,11 @@ class Logger(object):
     def flush(self):
         pass
 
+# This is a function works with 'timsort' function provided by Python.
 def takeSecond(inp):
     return inp[1]
 
+# This is the main function to run indexing
 def setindex(strings):
     print('index processing begins')
     mid = strings + '$'
@@ -46,10 +48,12 @@ def setindex(strings):
     print('index success!')
     return output
 
-
+# This is the first method of string rotate
 def str_rotate(distance,strings):
     return strings[distance:] + strings[0:distance]
+#####################################################
 
+# These two function is the second method of string rotate , it can reduce memory consumption but it is too slow
 def exchange(str,left,right):
     while left < right:
         str[left],str[right] = str[right],str[left]
@@ -64,7 +68,9 @@ def str_rotate2(distance,strings):
     exchange(mid,0,length-1)
     ans = ''.join(mid)
     return ans
+#####################################################
 
+# These two function is the third method of string rotate , more memory-saving but too slow
 def shift(str,n):
     tmp = str[0]
     for i in range(1,n):
@@ -80,8 +86,9 @@ def str_rotate3(distance,str):
     ans = ''.join(mid)
     return ans
 
-#setindex('abracadabra')
 
+
+# This is function for tally convert
 def tally_convert(bwtindex):
     #initialize
     A,C,G,T = [0,0,0,0]
@@ -121,8 +128,8 @@ def tally_convert(bwtindex):
     #print(indexarray)
     return [bwtindex,indexarray]
 
-#tally_convert(setindex('ACGTGTCAT'))
 
+# This is function for tally search
 def tally_search(findx,tally_matrix):
     print('search begins !')
     find_save = list(findx)
@@ -155,7 +162,11 @@ def tally_search(findx,tally_matrix):
     print('Well done !')
     return ans
 
+
+# This is function run with -v command
 def show(string,search,ans):
+    if len(ans) == 0:
+        print('Sorry, no match found')
     for i in range(len(ans)):
         print('This is NO.%s alignment answer' % str(i+1))
         print(string)
@@ -171,6 +182,7 @@ def show(string,search,ans):
     url = 'https://api.day.app/dgMCtB2A6VtfKjnpcpFfV4/Bowtie2分析完成,查找到%s个匹配' % str(len(ans))
     requests.get(url)
 
+# This is function run with -r command
 def record(string,search,ans):
     url = 'https://api.day.app/dgMCtB2A6VtfKjnpcpFfV4/Bowtie2分析完成,查找到%s个匹配' % str(len(ans))
     requests.get(url)
@@ -214,6 +226,8 @@ def seed():
 sys.stdout = Logger("a.txt")
 if sys.argv[3] == '-r':
     record(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
-else:
+elif sys.argv[3] == '-v':
     show(refstring , search,tally_search(search,tally_convert(setindex(refstring))))
+else:
+    print(' please select -r or -v mode correctly')
 
