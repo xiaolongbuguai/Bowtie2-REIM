@@ -1,0 +1,5 @@
+index processing begins
+index success!
+search begins !
+Well done !
+The alignment answer has been saved to a.xlsx
